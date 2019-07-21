@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Shopping Cart
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.min.js" integrity="sha256-ngJY93C4H39YbmrWhnLzSyiepRuQDVKDNCWO2iyMzFw=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="./css/index.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row header"><span class="headerText"><img src="./Images/logo.png"></span></div>
+            <div class="row stepper">Stepper</div>
+            <div class="row catalouge">
+                <div class="col-lg-12">
+                    <div class="row infoMsg">
+                        <div class="col-md-12">
+                            Shop for $5000 or more and get 10% discount on your order.
+                        </div>
+                    </div>
+                    <div class="row cartHeader">
+                        <div class="col-md-12">
+                            Shopping Cart
+                        </div>
+                    </div>
+                    <div class="table-responsive cartResult" id="productPlaceholder"></div>
+                    <div class="row cartResult">
+                        <div class="col-md-4" id="deliveryAvailability"></div>
+                        <div class="col-md-2" id="seperator"></div>
+                        <table class="col-md-6" id="orderSummary">
+                            <tr><th colspan="2">Order Summary (xx items)</th><tr>
+                            <tr><td>Subtotal</td><td id="subTotal_final" style="text-align:center;">-</td><tr>
+                            <tr><td>Total Discount</td><td id="discount_final" style="text-align:center;">-</td><tr>
+                            <tr><td>Standard Shipping</td><td id="shipping_final" style="text-align:center;">-</td><tr>
+                            <tr><td><span style="font-size: 20px; font-weight: bold;">Order Total</span></td><td id="total_final" style="text-align:center;"><span style="font-size: 20px; font-weight: bold;">-</span></td><tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row cartFooter" id="footerLinksMain"></div>
+        </div>
+
+        <script type="text/x-handlebars-template" id="productTemplate">
+            <table class="table table-hover" id="productCatalougeTable">
+                <tr class="productHeader">
+                    <td style="font-weight: bold;" class="product">Product</td>
+                    <td style="font-weight: bold;" class="price">Price</td>
+                    <td style="font-weight: bold;" class="qty">Quantity</td>
+                    <td style="font-weight: bold;" class="subTotal">Sub-Total</td>
+                </tr>
+                <tbody>
+                    {{#each this}}
+                        <tr class="productRow" id={{id}}>
+                            <td class="product">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td class="productImage"><img src={{imageUrl}}></td>
+                                            <td>
+                                                <span class="tagline">{{tagline}}</span><br>
+                                                <span class="productDescription" style="font-weight: bold;">{{name}}</span><br>
+                                                <span class="productSubDescription">{{desc}}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td class="price">
+                                {{#if this.price}}
+                                    <span id={{generateId "price" id}}>{{this.price}} $</span>
+                                {{/if}}
+                            </td>
+                            <td class="qty">
+                                <span class="decItem" id={{generateId "decItem" id}}><img src="./icon/minus.png"></span>
+                                <span class="decItemActive" id={{generateId "decItemActive" id}}><img src="./icon/minus-active.png"></span>
+                                {{#if (isExist this)}}
+                                    <span><input type="number" id={{generateId "qtyInput" id}} class="qtyInput" value="{{this.qty}}" min="0"></span>
+                                {{else}}
+                                    <span><input type="number" id={{generateId "qtyInput" id}} class="qtyInput" value="0" min="0"></span>
+                                {{/if}}
+                                <span class="incItem" id={{generateId "incItem" id}}><img src="./icon/plus.png"></span>
+                            </td>
+                            <td class="subTotal">
+                                <div  style="display: inline-block; width: 80px;">
+                                    {{#if this.subTotal}}
+                                        <span id={{generateId "subTotal" id}}>{{subTotal}} $</span>
+                                    {{else}}
+                                        <span id={{generateId "subTotal" id}}>0 $</span>
+                                    {{/if}}
+                                </div>
+                                <div style="display: inline-block;">
+                                    <button class="deleteItem" id={{generateId "deleteItem" id}}><img src="./icon/DELETE.png"></button>
+                                </div>
+                            </td>
+                        </tr>
+                        {{#if this.gift}}
+                            <tr style="{{canShowGift qty}};" id={{generateId "gift" id}}>
+                                <td class="product">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td class="productImage"><img src={{gift.imageUrl}}></td>
+                                                <td>
+                                                    <span class="gift">GIFT</span><br>
+                                                    <span class="productDescription" style="font-weight: bold;">{{gift.name}}</span><br>
+                                                    <span class="productSubDescription">{{gift.desc}}</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td class="price"><span id={{generateId "price" id}}>{{gift.price}} $</span></td>
+                                <td class="qty" colspan="2"><span class="giftQty">{{qty}}</span></td>
+                            </tr>
+                        {{/if}}
+                    {{/each}}
+                </tbody>
+            </table>
+        </script>
+
+
+        <script type="text/x-handlebars-template" id="deliveryAvailabilityTemplate">
+            <div style="margin: 10px;font-size: 1em; font-weight: bold;">Delivery Availability</div>
+            <div style="margin-left: 10px; margin-top: 20px; border: none; border-bottom: 1px solid black;">
+                <span><img src="./icon/LOCATION.png" style="width:'10%'"></span>
+                <span><input type="number" id="pinCode" value="560066" placeholder="type pincode ... e.g 560066" style="width:'80%';border: none;"></span>
+                <span id="pinCodeChange" style="width:'15%'; text-align:right; color:navy">CHANGE</span>
+            </div>
+            <div style="margin-left: 10px;">
+                <div class="checks" id="free">
+                    <span><img src="./icon/check.png"></span><br>
+                    <span>Free<br>delivery</span>
+                </div>
+                <div class="checks" id="cod">
+                    <span><img src="./icon/check.png"></span><br>
+                    <span>Cash on<br>delivery</span>
+                </div>
+                <div class="checks" id="est">
+                    <span><img src="./icon/check.png"></span><br>
+                    <span id="estTimeMsg">Estimated delivery<br>time is 3 - 5 days</span>
+                </div>
+            </div>
+        </script>
+
+        <script type="text/x-handlebars-template" id="footerLinksMainTemplate">
+            <div class="col-lg-8">
+                <table class="table footerLinksMainTable" border="0">
+                    <thead>
+                        <tr>
+                            <th>LOREM</th><th>LOREM</th><th>LOREM</th><th>LOREM</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each this}}
+                            <tr>
+                                <th>{{itemValue1}}</th>
+                                <th>{{itemValue2}}</th>
+                                <th>{{itemValue3}}</th>
+                                <th>{{itemValue4}}</th>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-1 divider"></div>
+            <div class="col-lg-3">
+                <table class="table footerLinksSideBarTable" border="0">
+                    <thead><tr><th>CALL US</th></tr></thead>
+                    <tbody>
+                        <tr><td><input style="color: black;" type="button" id="clearLocalStorage" value="Reset Local Storage"></td></tr>
+                        <tr><td><hr style="color: white;"></td></tr>
+                    </tbody> 
+                </table>
+            </div>
+            <div class="col-lg-12 vLine"><hr></div>
+        </script>
+
+        <script src="./js/index.js"></script>
+    </body>
+</html>

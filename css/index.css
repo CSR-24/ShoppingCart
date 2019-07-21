@@ -1,0 +1,165 @@
+body {
+    font-family: "Montserrat";
+}
+
+.header {
+    height: 30px;
+    background-image: url("../Images/tiles/header_tile.png");
+    color: white;
+}
+
+.headerText {
+    margin-left: 35px;
+}
+
+.stepper {
+    height: 100px;
+}
+
+.infoMsg {
+    text-align: center;
+    height: 30px;
+    color: white;
+    font-size: 1em;
+    background-image: url("../Images/tiles/info_msg_tile.png");
+    margin-left: 35px;
+    margin-right: 35px;
+    margin-top: 10px;
+}
+
+.catalouge {
+    background-image: url("../Images/tiles/bg_color_cart_tile.png");
+}
+
+.cartHeader {
+    font-size: 2em;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.item-tab {
+    margin-left: 35px;
+    margin-right: 35px;
+}
+
+.cartBody {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.productDetail {
+    height: 100px;
+    display: inline-block;
+}
+
+.cartResult {
+    margin-left: 35px;
+    margin-right: 35px;
+    margin-bottom: 35px;
+    border-radius: 15px;
+    background-color: white;
+}
+
+.productDescription {
+    font-size: 1em;
+}
+
+.productSubDescription {
+    font-size: 1em;
+}
+
+.productImage {
+    margin: 25px;
+    padding: 25px;
+    width: 120px;
+}
+
+.product, .price, .qty, .subTotal {
+    font-size: 1em;
+    margin-left: 20px;
+}
+
+.qtyInput {
+    width: 35px;
+}
+
+.deleteItem {
+    margin: 10px;
+}
+
+.footer {
+    background-color: black;
+}
+
+.cartFooter {
+    font-size: 1em;
+    background-color: black;
+    color: white;
+}
+
+.table tbody tr td {
+    vertical-align: middle;
+}
+
+.cartAvailability {
+    height: 100px;
+}
+
+.pinCode {
+  outline: 0;
+  border-width: 0 0 1px;
+  border-color: black;
+  width: 280px;
+}
+
+.delText {
+    font-size: 1em;
+}
+
+.footerLinksSideBarTable {
+    border: 0px;
+}
+
+.cartFooter, .cartFooter table tr th, .cartFooter table  tr td {
+    vertical-align: middle;
+    background-image: url("../Images/tiles/footer_tile.png");
+    border: none;
+}
+
+.divider {
+    color: white;
+    border-left: 1px solid white;
+    margin-top: 10px;
+    height: 150px;
+}
+
+.tagline {
+    color: white;
+    background-color:navy;
+}
+
+.gift {
+    color: white;
+    background-color:black;
+}
+
+.deleteItem {
+    margin-left: 20px;
+}
+
+.decItemActive {
+    display: none;
+}
+
+.checks {
+    display: inline-block;
+    font-size: 10px;
+    width: 30%;
+}
+
+.orderSummary table tr th,.orderSummary table tr td{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
